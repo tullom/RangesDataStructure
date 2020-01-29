@@ -7,6 +7,10 @@
 #include "ranges.h"
 
 int main(void) {
+
+    Range *testPtr = constructRange(1,4);
+    printRange(testPtr);
     foo(8);
     return(0);
+
 }
