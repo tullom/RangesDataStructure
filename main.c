@@ -8,9 +8,17 @@
 
 int main(void) {
 
-    Range *testPtr = constructRange(1,4);
-    printRange(testPtr);
-    foo(8);
-    return(0);
+    Range *testPtr1,*testPtr2,*addedRange;
+    
+    testPtr1 = constructRange(1,4);
+    testPtr2 = constructRange(3,9);
+    
+    
+    printRange(testPtr1);
+    printRange(testPtr2);
 
+    destroyRange(testPtr1);
+    destroyRange(testPtr2);
+
+    return(0);
 }
