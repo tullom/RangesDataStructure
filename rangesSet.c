@@ -1,28 +1,23 @@
 //Matteo Tullo
 //tullom@mcmaster.ca
-/* Brute force method
- *
- *
- */
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "ranges.h"
 #include "rangesSet.h"
 
-RangesSet *constructSet(Range *r) {
-
-    // Set *newSet = malloc((*listSize) * sizeof(Range *));
-    // for(int i=0;i<(*listSize);i++) {
-    //     newSet->rangesList[i] = listOfRanges[i];
-    // }
-
-    // return newSet;
+RangesSet *constructSet(Range **r, int size) {
 
     RangesSet *newSet = malloc(sizeof(RangesSet));
-    newSet->numOfDiscontin = 0;
+    newSet->rangesList = malloc(size*sizeof(Range *));
+    newSet->numOfDiscontin = size-1;
 
-    // newSet[newSet->numOfDiscontin] = malloc()
+    for(int i=0;i<size;i++) {
+        newSet->rangesList[i] = r[i];
+    }
+
+    return newSet;
 }
 
 RangesSet *SetFromIntList(int *list, int size) {
@@ -48,7 +43,6 @@ RangesSet *SetFromIntList(int *list, int size) {
 
         if((counter - counterLag) > 1) {
             endOfRange = list[i-1];
-            // printf("%d start\n",startOfRange);
             newSet->rangesList[rangecount] = constructRange(startOfRange,endOfRange+1);
             rangecount++;
             startOfRange = list[i];
@@ -56,17 +50,20 @@ RangesSet *SetFromIntList(int *list, int size) {
     }
     newSet->rangesList[rangecount] = constructRange(startOfRange,list[size-1]+1);
 
-
     return newSet;
 }
 
 void printRangesSet(RangesSet *set) {
 
-    for(int i=0;i<set->numOfDiscontin+1;i++) {
+    printf("[");
+    for(int i=0;i<set->numOfDiscontin;i++) {
         printRange(set->rangesList[i]);
+        printf(", ");
     }
+    printRange(set->rangesList[set->numOfDiscontin]);
+    printf("]\n");
 }
 
-RangesSet *addRangeSet(RangesSet *set1, RangesSet *set2) {
+// RangesSet *addRangeSet(RangesSet *set1, RangesSet *set2) {
 
-}
+// }

@@ -41,7 +41,7 @@ Range *constructRange(int x, int y) {
  */
 void printRange(Range *r) {
 
-    printf("(%d, %d)\n", r->min, r->max);
+    printf("(%d, %d)", r->min, r->max);
 }
 
 /* Function: destroyRange

@@ -7,26 +7,29 @@
 #include "ranges.h"
 #include "rangesSet.h"
 
-#define N 10
+#define INTLISTLEN 10
+#define RANGELISTLEN 2
 
 int main(void) {
     
-    Range *testPtr1,*testPtr2,*testPtr3,*addedRange;
-    Range **rngList;
-    RangesSet *newSet;
-    int intList[N] = {-9,7,8,11,12,13,14,18,23,24};
+    Range *testPtr1,*testPtr2,*testPtr3;
+    RangesSet *newSet, *newSet2;
+    int intList[INTLISTLEN] = {-9,7,8,11,12,13,14,18,23,24};
     
     testPtr1 = constructRange(1,4);
     testPtr2 = constructRange(7,9);
     testPtr3 = constructRange(3,8);
   
+    Range *rngList[RANGELISTLEN] = {testPtr1,testPtr2};
     
     // printRange(testPtr1);
     // printRange(testPtr2);
+    
+    newSet = constructSet(rngList,RANGELISTLEN);
+    newSet2 = SetFromIntList(intList,INTLISTLEN);
 
-    newSet = SetFromIntList(intList,N);
-    // printf("%d\n",newSet->numOfDiscontin);
     printRangesSet(newSet);
+    printRangesSet(newSet2);
 
     destroyRange(testPtr1);
     destroyRange(testPtr2);
