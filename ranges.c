@@ -56,25 +56,44 @@ void destroyRange(Range *r) {
     free(r);
 }
 
+int isInRange(Range *r, int x) {
+    if(r->min <= x && r->max > x) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 /* Function: compareRanges
  * Arguments: Range *range1, Range *range2
  * Return: int
  * 
- * This function compares two ranges.  If they are the
- * same, the function returns 0.  If range1 contains
- * range2 entirely, the function returns 1.  If range1
- * contains range2 not entirely, the function returns 2.
+ * This function compares two ranges.  If range1 contains 
+ * range2, it returns 1.  Else, it returns 0;
  */
-// int compareRanges(Range *range1, Range *range2) {
+int compareRanges(Range *range1, Range *range2) {
 
-//     int min1,min2,max1,max2;
-//     min1 = range1->min;
-//     min2 = range2->min;
-//     max1 = range1->max;
-//     max2 = range1->max;
+    int min1,min2,max1,max2;
+    min1 = range1->min;
+    min2 = range2->min;
+    max1 = range1->max;
+    max2 = range2->max;
 
-//     if(max1<min2) {
-//     }
+    if(min1<=min2) {
+        if(max1>min2) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    } else {
+        if(min1<max2) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+    return 0;
 
-// }
+}

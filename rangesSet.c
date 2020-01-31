@@ -94,15 +94,33 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     while((r->min) > (set->rangesList[counter]->min)) {
         counter++;
     }
-
-    while //START HERE
-
-    // printf("%d",counter); //index of element
+    int maxCounter = counter;
+    while((r->max) > set->rangesList[maxCounter]->max) {
+        maxCounter++;
+    }
+    if(r->max<=set->rangesList[maxCounter]->max) {
+        maxCounter--;
+    }
+    printf("%d %d\n",counter, maxCounter); //index of element
+    int offset = maxCounter - counter;
     if (counter==0) {
         if (r->max > set->rangesList[0]->min) {
             //r should overwrite the first element
-            set->rangesList[0] = constructRange(r->min,set->rangesList[0]->max);
-            return set;
+            Range **arrOfRanges = malloc((set->numOfDiscontin+1-offset)*sizeof(Range *));
+            printf("%d",set->rangesList[maxCounter]->max);
+            if(r->max > set->rangesList[maxCounter+1]->min) {
+                arrOfRanges[0] = constructRange(r->min,set->rangesList[offset+1]->max);
+                offset++;
+            } else {
+                arrOfRanges[0] = constructRange(r->min,r->max);
+            }
+            for(int i=1;i<set->numOfDiscontin+1-offset;i++) {
+                arrOfRanges[i] = set->rangesList[offset+i];
+            }
+
+            tempSet = constructSet(arrOfRanges,set->numOfDiscontin+1-offset);
+            free(arrOfRanges);
+            return tempSet;
         } else {
             //r should be the first element
             //new element
@@ -180,13 +198,36 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     return set;
 }
 
-int binSearchRange(RangesSet *set, Range *r) {
+// int binSearchRange(RangesSet *set, Range *r) {
 
     
-    int mid = (set->numOfDiscontin+1)/2;
-    int first = set->rangesList[0]->min;
-    int last = set->rangesList[set->numOfDiscontin]->min;
-    printf("%d",last);
+//     int mid = (set->numOfDiscontin+1)/2;
+//     int first = set->rangesList[0]->min;
+//     int last = set->rangesList[set->numOfDiscontin]->min;
+//     printf("%d",last);
 
+// }
+
+RangesSet *getRangeSet(RangesSet *set, Range *r) {
+
+    int counter=0;
+    int maxCounter=0;
+    for(int i=0;i<set->numOfDiscontin+1;i++) {
+        if(compareRanges(set->rangesList[i],r)==1) {
+            counter++;
+        }
+    }
+    
+    Range **arrOfRanges = malloc(counter*sizeof(Range *));
+    maxCounter=0;
+    for(int i=0;i<set->numOfDiscontin+1;i++) {
+        if(compareRanges(set->rangesList[i],r)==1) {
+            arrOfRanges[maxCounter] = set->rangesList[i];
+            maxCounter++;
+        }
+    }
+    printf("%d %d",counter,maxCounter);
+    RangesSet *tempSet = constructSet(arrOfRanges,counter);
+    return tempSet;
 }
 
