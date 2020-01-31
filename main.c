@@ -8,15 +8,15 @@
 #include "rangesSet.h"
 
 #define INTLISTLEN 10
-#define RANGELISTLEN 2
+#define RANGELISTLEN 3
 
 int main(void) {
     
     Range *testPtr1,*testPtr2,*testPtr3;
     RangesSet *newSet, *newSet2;
-    int intList[INTLISTLEN] = {-9,7,8,11,12,13,14,18,23,24};
+    int intList[INTLISTLEN] = {3,4,5,7,12,13,14,18,19,20};
     
-    testPtr1 = constructRange(1,4);
+    testPtr1 = constructRange(20,30);
     testPtr2 = constructRange(7,9);
     testPtr3 = constructRange(3,8);
   
@@ -26,11 +26,13 @@ int main(void) {
     // printRange(testPtr2);
     
     newSet = constructSet(rngList,RANGELISTLEN);
+
     newSet2 = SetFromIntList(intList,INTLISTLEN);
 
-    printRangesSet(newSet);
+    // printRangesSet(newSet);
     printRangesSet(newSet2);
 
+    newSet2 = addRangeSet(newSet2,testPtr1);
     destroyRange(testPtr1);
     destroyRange(testPtr2);
     destroyRange(testPtr3);

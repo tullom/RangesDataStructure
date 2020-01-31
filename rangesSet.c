@@ -64,6 +64,64 @@ void printRangesSet(RangesSet *set) {
     printf("]\n");
 }
 
-// RangesSet *addRangeSet(RangesSet *set1, RangesSet *set2) {
+RangesSet *addRangeSet(RangesSet *set, Range *r) {
+    int counter = 0;
 
-// }
+    printf("%d",set->rangesList[set->numOfDiscontin]->min);
+
+    if((r->min) >= (set->rangesList[set->numOfDiscontin]->min)) {
+        if((r->min) > (set->rangesList[set->numOfDiscontin]->max)) {
+            //r will be the last element, realloc array
+        }
+        else {
+            //r will overwrite the last element
+        }
+
+    }
+
+    while((r->min) > (set->rangesList[counter]->min)) {
+        counter++;
+    }
+    printf("%d",counter); //index of element
+    if (counter==0) {
+        //r should be the first element
+        //realloc array
+    }
+    counter--;
+    
+    if((set->rangesList[counter]->max)<=(r->min)) { //r starts inside a discontinuity
+        if((set->rangesList[counter+1]->min)<(r->max)) {
+            //function 2
+            //part of r is inside the right
+            //need to overwrite the right range
+        }
+        else if((set->rangesList[counter+1]->min)>=(r->max)) {
+            //r is going to be a whole new element
+            //need to realloc array, insert a new range
+        }
+    } else { //r starts inside of the right range
+        if((set->rangesList[counter+1]->min)<(r->max)) {
+            //r is also in the left range
+            //join the left and the right ranges, realloc
+        }
+        else if((set->rangesList[counter+1]->min)>=(r->max)) {
+            //r is in the left range
+            //need to overwrite the left range
+        }
+    }
+
+    // while()
+
+    return set;
+}
+
+int binSearchRange(RangesSet *set, Range *r) {
+
+    
+    int mid = (set->numOfDiscontin+1)/2;
+    int first = set->rangesList[0]->min;
+    int last = set->rangesList[set->numOfDiscontin]->min;
+    printf("%d",last);
+
+}
+

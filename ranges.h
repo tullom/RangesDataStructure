@@ -12,6 +12,6 @@ typedef struct Range {
 Range *constructRange(int x, int y);
 void printRange(Range *r);
 void destroyRange(Range *r);
-// int compareRanges(Range *range1, Range *range2);
+int compareRanges(Range *range1, Range *range2);
 
 #endif

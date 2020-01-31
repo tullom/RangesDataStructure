@@ -16,6 +16,6 @@ typedef struct RangesSet {
 RangesSet *constructSet(Range **r, int size);
 RangesSet *SetFromIntList(int *list, int size);
 void printRangesSet(RangesSet *set);
-RangesSet *addRangeSet(RangesSet *set1, RangesSet *set2);
+RangesSet *addRangeSet(RangesSet *set, Range *r);
 
 #endif

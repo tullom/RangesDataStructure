@@ -56,6 +56,7 @@ void destroyRange(Range *r) {
     free(r);
 }
 
+
 /* Function: compareRanges
  * Arguments: Range *range1, Range *range2
  * Return: int
@@ -73,6 +74,7 @@ void destroyRange(Range *r) {
 //     max1 = range1->max;
 //     max2 = range1->max;
 
-//     if()
+//     if(max1<min2) {
+//     }
 
 // }
