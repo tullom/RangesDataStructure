@@ -66,15 +66,27 @@ void printRangesSet(RangesSet *set) {
 
 RangesSet *addRangeSet(RangesSet *set, Range *r) {
     int counter = 0;
+    RangesSet *tempSet;
 
-    printf("%d",set->rangesList[set->numOfDiscontin]->min);
+    // printf("%d",set->rangesList[set->numOfDiscontin]->min);
 
     if((r->min) >= (set->rangesList[set->numOfDiscontin]->min)) {
-        if((r->min) > (set->rangesList[set->numOfDiscontin]->max)) {
+        if((r->min) >= (set->rangesList[set->numOfDiscontin]->max)) {
             //r will be the last element, realloc array
+
+            Range **arrOfRanges = malloc((set->numOfDiscontin+2)*sizeof(Range *));
+            for(int i=0;i<set->numOfDiscontin+1;i++) {
+                arrOfRanges[i] = set->rangesList[i];
+            }
+            arrOfRanges[set->numOfDiscontin+1] = constructRange(r->min,r->max);
+            tempSet = constructSet(arrOfRanges,set->numOfDiscontin+2);
+            return tempSet;
         }
         else {
             //r will overwrite the last element
+
+            set->rangesList[set->numOfDiscontin] = constructRange(set->rangesList[set->numOfDiscontin]->min,r->max);
+            return set;
         }
 
     }
@@ -82,31 +94,84 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     while((r->min) > (set->rangesList[counter]->min)) {
         counter++;
     }
-    printf("%d",counter); //index of element
+
+    while //START HERE
+
+    // printf("%d",counter); //index of element
     if (counter==0) {
-        //r should be the first element
-        //realloc array
+        if (r->max > set->rangesList[0]->min) {
+            //r should overwrite the first element
+            set->rangesList[0] = constructRange(r->min,set->rangesList[0]->max);
+            return set;
+        } else {
+            //r should be the first element
+            //new element
+            Range **arrOfRanges = malloc((set->numOfDiscontin+2)*sizeof(Range *));
+            for(int i=1;i<set->numOfDiscontin+2;i++) {
+                arrOfRanges[i] = set->rangesList[i-1];
+            }
+            arrOfRanges[0] = r;
+            tempSet = constructSet(arrOfRanges,set->numOfDiscontin+2);
+            free(arrOfRanges);
+            return tempSet;
+
+        }
     }
     counter--;
+
+    printf("%d",counter);
     
     if((set->rangesList[counter]->max)<=(r->min)) { //r starts inside a discontinuity
         if((set->rangesList[counter+1]->min)<(r->max)) {
             //function 2
             //part of r is inside the right
             //need to overwrite the right range
+
+            set->rangesList[counter+1] = constructRange(r->min,set->rangesList[counter+1]->max);
+            return set;
         }
         else if((set->rangesList[counter+1]->min)>=(r->max)) {
             //r is going to be a whole new element
             //need to realloc array, insert a new range
+            
+            Range **arrOfRanges = malloc((set->numOfDiscontin+2)*sizeof(Range *));
+            int flag=0;
+            for(int i=0;i<set->numOfDiscontin+1;i++) {
+                if(i==counter+1) {
+                    arrOfRanges[i] = constructRange(r->min,r->max);
+                    flag = 1;
+                }
+                arrOfRanges[i+flag] = set->rangesList[i];
+            }
+            tempSet = constructSet(arrOfRanges,set->numOfDiscontin+2);
+            free(arrOfRanges);
+            return tempSet;
         }
     } else { //r starts inside of the right range
         if((set->rangesList[counter+1]->min)<(r->max)) {
             //r is also in the left range
             //join the left and the right ranges, realloc
+
+            Range **arrOfRanges = malloc((set->numOfDiscontin)*sizeof(Range *));
+            int flag=0;
+            for(int i=0;i<set->numOfDiscontin;i++) {
+                if(i==counter) {
+                    arrOfRanges[i] = constructRange(set->rangesList[counter]->min,set->rangesList[counter+1]->max);
+                    // printRange(arrOfRanges[i]);
+                    flag = 1;
+                }
+                arrOfRanges[i] = set->rangesList[i+flag];
+            }
+            tempSet = constructSet(arrOfRanges,set->numOfDiscontin);
+            free(arrOfRanges);
+            return tempSet;
         }
         else if((set->rangesList[counter+1]->min)>=(r->max)) {
             //r is in the left range
             //need to overwrite the left range
+            // printf("%d",set->rangesList[counter]->min);
+            set->rangesList[counter] = constructRange(set->rangesList[counter]->min,r->max);
+            return set;
         }
     }
 
