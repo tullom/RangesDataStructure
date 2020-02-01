@@ -14,5 +14,7 @@ void printRange(Range *r);
 void destroyRange(Range *r);
 int isInRange(Range *r, int x);
 int compareRanges(Range *range1, Range *range2);
+int isSubrange(Range *subsetRange, Range *bigRange);
+int isSame(Range *range1, Range *range2);
 
 #endif

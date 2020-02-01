@@ -95,6 +95,13 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     RangesSet *tempSet;
 
     // printf("%d",set->rangesList[set->numOfDiscontin]->min);
+    if((r->min <= set->rangesList[0]->min) && (r->max >= set->rangesList[set->numOfDiscontin]->max)) {
+        Range **arrOfRanges = malloc(sizeof(Range *));
+        printf("hi");
+        arrOfRanges[0] = constructRange(r->min,r->max);
+        tempSet = constructSet(arrOfRanges,1);
+        return tempSet;
+    }
 
     if((r->min) >= (set->rangesList[set->numOfDiscontin]->min)) {
         if((r->min) >= (set->rangesList[set->numOfDiscontin]->max)) {
@@ -116,6 +123,7 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
         }
 
     }
+
 
     while((r->min) > (set->rangesList[counter]->min)) {
         counter++;
@@ -164,6 +172,8 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     counter--;
 
     printf("%d",counter);
+
+
     
     if((set->rangesList[counter]->max)<=(r->min)) { //r starts inside a discontinuity
         if((set->rangesList[counter+1]->min)<(r->max)) {
@@ -171,7 +181,11 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
             //part of r is inside the right
             //need to overwrite the right range
 
-            set->rangesList[counter+1] = constructRange(r->min,set->rangesList[counter+1]->max);
+            if(set->rangesList[counter+1]->max>r->max){
+                set->rangesList[counter+1] = constructRange(r->min,set->rangesList[counter+1]->max);
+            } else {
+                set->rangesList[counter+1] = constructRange(r->min,r->max);
+            }
             return set;
         }
         else if((set->rangesList[counter+1]->min)>=(r->max)) {
@@ -214,7 +228,12 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
             //r is in the left range
             //need to overwrite the left range
             // printf("%d",set->rangesList[counter]->min);
-            set->rangesList[counter] = constructRange(set->rangesList[counter]->min,r->max);
+            printf("hi");
+            if(set->rangesList[counter]->min >= r->min){
+                set->rangesList[counter] = constructRange(set->rangesList[counter]->min,r->max);
+            } else {
+                set->rangesList[counter] = constructRange(r->min,r->max);
+            }
             return set;
         }
     }
@@ -271,9 +290,90 @@ RangesSet *getRangeSet(RangesSet *set, Range *r) {
 
 RangesSet *addRangeSet2(RangesSet *set, Range *r) {
 
-    int counter=0;
-    while((r->min) > (set->rangesList[counter]->min)) {
+    RangesSet *tempSet;
+
+    if((r->min) >= (set->rangesList[set->numOfDiscontin]->min)) {
+        if((r->min) >= (set->rangesList[set->numOfDiscontin]->max)) {
+            //r will be the last element, realloc array
+
+            Range **arrOfRanges = malloc((set->numOfDiscontin+2)*sizeof(Range *));
+            for(int i=0;i<set->numOfDiscontin+1;i++) {
+                arrOfRanges[i] = set->rangesList[i];
+            }
+            arrOfRanges[set->numOfDiscontin+1] = constructRange(r->min,r->max);
+            tempSet = constructSet(arrOfRanges,set->numOfDiscontin+2);
+            return tempSet;
+        }
+        else {
+            //r will overwrite the last element
+
+            set->rangesList[set->numOfDiscontin] = constructRange(set->rangesList[set->numOfDiscontin]->min,r->max);
+            return set;
+        }
+
+    }
+
+    int counter=0,maxCounter=0,offset,sizOfNewArr,flag=0,holeSet=0,something=0;
+    Range **arrOfRanges;
+
+    while((r->min) >= (set->rangesList[counter]->min)) {
     counter++;
     }
+    while((r->max) > (set->rangesList[maxCounter]->min)) {
+        maxCounter++;
+    }
+    offset = maxCounter-counter;
+    // printf("%d %d %d ",counter,maxCounter,offset);
+    sizOfNewArr = set->numOfDiscontin+2-offset;
+    printf("ji %d ji",sizOfNewArr);
+    for(int i=0;i<set->numOfDiscontin+1;i++) {
+        if(isSubrange(r,set->rangesList[i])||isSame(r,set->rangesList[i])) {
+            something = 1;
+            break;
+        }
+    }
+
+    // printf("hi %d ",something);
+    if(something == 1) {
+        --sizOfNewArr;
+        arrOfRanges = malloc((sizOfNewArr)*sizeof(Range *));
+        
+    } else {
+        arrOfRanges = malloc((sizOfNewArr)*sizeof(Range *));
+    }
+
+    // arrOfRanges = malloc((sizOfNewArr)*sizeof(Range *));
+    printf("%d be",something);
+    for (int i=0;i<sizOfNewArr;i++) {
+        if (i==counter) {
+            if(something==0 && offset==0) {
+                //its in a hole
+                holeSet = 1;
+                arrOfRanges[i] = constructRange(r->min,r->max);
+                offset++;
+                flag=1;
+                continue;
+            }
+            else if(compareRanges(set->rangesList[i],r)==0) {
+                printf("hi");
+                
+                
+            }
+            else if(compareRanges(set->rangesList[i],r)==1) {
+
+            }
+            flag = 1;
+        }
+        if(flag==0){
+            arrOfRanges[i] = set->rangesList[i];
+        } else if(flag==1 && holeSet==1){
+            arrOfRanges[i] = set->rangesList[i-offset];
+        } else if (flag==1 && holeSet==0) {
+            arrOfRanges[i] = set->rangesList[i+offset];
+        }
+        // printRange(arrOfRanges[i]);
+    }
+    tempSet = constructSet(arrOfRanges,sizOfNewArr);
+    return tempSet;
 
 }

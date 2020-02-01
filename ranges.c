@@ -69,7 +69,7 @@ int isInRange(Range *r, int x) {
  * Return: int
  * 
  * This function compares two ranges.  If range1 contains 
- * range2, it returns 1.  Else, it returns 0;
+ * range2, it returns 1.  Else, it returns 0.
  */
 int compareRanges(Range *range1, Range *range2) {
 
@@ -96,4 +96,49 @@ int compareRanges(Range *range1, Range *range2) {
     }
     return 0;
 
+}
+
+/* Function: isSubrange
+ * Arguments: Range *subsetRange, Range *bigRange
+ * Return: int
+ * 
+ * This function checks if the first range
+ * argument is a subset of the second one.
+ * If it is, return 1.  Else, return 0.
+ */
+int isSubrange(Range *subsetRange, Range *bigRange) {
+    
+    int min1,min2,max1,max2;
+    min1 = subsetRange->min;
+    min2 = bigRange->min;
+    max1 = subsetRange->max;
+    max2 = bigRange->max;
+    if(min1>=min2 && min1<max2) {
+        if(max1<=max2) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+/* Function: isSame
+ * Arguments: Range *range1, Range *range2
+ * Return: int
+ * 
+ * This function compares two ranges.  If range1 is identical
+ * to range2, it returns 1.  Else, it returns 0.
+ */
+int isSame(Range *range1, Range *range2) {
+    
+    int min1,min2,max1,max2;
+    min1 = range1->min;
+    min2 = range2->min;
+    max1 = range1->max;
+    max2 = range2->max;
+
+    if(min1==min2 && max1==max2) {
+        return 1;
+    }
+    return 0;
 }
