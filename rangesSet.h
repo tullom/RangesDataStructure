@@ -18,5 +18,6 @@ RangesSet *SetFromIntList(int *list, int size);
 void printRangesSet(RangesSet *set);
 RangesSet *addRangeSet(RangesSet *set, Range *r);
 RangesSet *getRangeSet(RangesSet *set, Range *r);
+RangesSet *addRangeSet2(RangesSet *set, Range *r);
 
 #endif

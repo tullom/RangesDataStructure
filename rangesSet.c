@@ -7,11 +7,19 @@
 #include "ranges.h"
 #include "rangesSet.h"
 
+
+/* Function: constructSet
+ * Arguments: Range **r, int size
+ * Return: RangesSet *newSet
+ * 
+ * This function constructs a new Range set from an 
+ * array of ranges.  List must be sorted.
+ */
 RangesSet *constructSet(Range **r, int size) {
 
     RangesSet *newSet = malloc(sizeof(RangesSet));
     newSet->rangesList = malloc(size*sizeof(Range *));
-    newSet->numOfDiscontin = size-1;
+        newSet->numOfDiscontin = size-1;
 
     for(int i=0;i<size;i++) {
         newSet->rangesList[i] = r[i];
@@ -20,6 +28,13 @@ RangesSet *constructSet(Range **r, int size) {
     return newSet;
 }
 
+/* Function: SetFromIntList
+ * Arguments: int *list, int size
+ * Return: RangesSet *newSet
+ * 
+ * This function constructs a new Range set from a
+ * list of integers.  List must be sorted.
+ */
 RangesSet *SetFromIntList(int *list, int size) {
     
     RangesSet *newSet = malloc(sizeof(RangesSet));
@@ -53,12 +68,23 @@ RangesSet *SetFromIntList(int *list, int size) {
     return newSet;
 }
 
+/* Function: printRangesSet
+ * Arguments: RangesSet *set
+ * Return: void
+ * 
+ * This function prints the range in a
+ * formatted way.
+ */
 void printRangesSet(RangesSet *set) {
 
     printf("[");
     for(int i=0;i<set->numOfDiscontin;i++) {
         printRange(set->rangesList[i]);
         printf(", ");
+    }
+    if(set->numOfDiscontin==-1) {
+        printf("]\n");
+        return;
     }
     printRange(set->rangesList[set->numOfDiscontin]);
     printf("]\n");
@@ -208,6 +234,17 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
 
 // }
 
+
+/* Function: getRangeSet
+ * Arguments: RangesSet *set, Range *r
+ * Return: RangesSet *tempSet
+ * 
+ * This function checks returns the
+ * intersection between all the elements
+ * in the inputted set and the inputted
+ * range.  It uses a linear search, therefore
+ * the algorithmic complexity is O(n).
+ */
 RangesSet *getRangeSet(RangesSet *set, Range *r) {
 
     int counter=0;
@@ -226,8 +263,17 @@ RangesSet *getRangeSet(RangesSet *set, Range *r) {
             maxCounter++;
         }
     }
-    printf("%d %d",counter,maxCounter);
+    // printf("%d %d",counter,maxCounter);
     RangesSet *tempSet = constructSet(arrOfRanges,counter);
+    free(arrOfRanges);
     return tempSet;
 }
 
+RangesSet *addRangeSet2(RangesSet *set, Range *r) {
+
+    int counter=0;
+    while((r->min) > (set->rangesList[counter]->min)) {
+    counter++;
+    }
+
+}

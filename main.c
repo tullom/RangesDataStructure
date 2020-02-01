@@ -16,10 +16,10 @@ int main(void) {
     RangesSet *newSet, *newSet2;
     int intList[INTLISTLEN] = {3,4,5,7,12,13,14,18,19,20};
     
-    testPtr1 = constructRange(7,19);
+    testPtr1 = constructRange(0,1);
     testPtr2 = constructRange(10,13);
     testPtr3 = constructRange(3,8);
-    printf("%d", compareRanges(testPtr1,testPtr2));
+    // printf("%d", compareRanges(testPtr1,testPtr2));
     Range *rngList[RANGELISTLEN] = {testPtr1,testPtr2};
     
     // printRange(testPtr1);
