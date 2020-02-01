@@ -363,14 +363,14 @@ RangesSet *getRangeSet(RangesSet *set, Range *r) {
  * is O(n).
  */
 RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
-    int counter = 0;
     RangesSet *tempSet;
     int *arr, intArrSize=0;
     int *arrFinal, newArrSize=0;
 
     //Checks to see if the inputted range covers the whole set
+    //if true, create an empty set
     if((r->min <= set->rangesList[0]->min) && (r->max >= set->rangesList[set->numOfDiscontin]->max)) {
-        Range **arrOfRanges;
+        Range **arrOfRanges = NULL;
         tempSet = constructSet(arrOfRanges,0);
         return tempSet;
     }
@@ -411,6 +411,13 @@ RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
     tempSet = SetFromIntList(arrFinal,newArrSize);
     return tempSet;
 }
+
+/* Please ignore this part. The add function
+ * doesn't fully work and this is my attempt
+ * to redo it. If I had a little more time,
+ * I would implement the add function similarly
+ * to the delete function, which works 100%.
+ */
 
 // RangesSet *addRangeSet2(RangesSet *set, Range *r) {
 

@@ -12,7 +12,7 @@
 
 int main(void) {
     Range *testPtr1,*testPtr2,*testPtr3;
-    RangesSet *newSet, *newSet2, *newSet3;
+    RangesSet *newSet, *newSet2;
     
     printf("\nWelcome. This is a test file for the rangesSet ranges data structures.\nCreated by Matteo Tullo\n");
     
@@ -68,11 +68,13 @@ int main(void) {
 
     printf("Adding [(3,6),(7,8),(12,15),(18,21)] and (7,11): ");
     testPtr1 = constructRange(7,11);
+    newSet2 = SetFromIntList(intList,INTLISTLEN);
     newSet = addRangeSet(newSet2,testPtr1);
     printRangesSet(newSet);
 
     printf("Adding [(3,6),(7,8),(12,15),(18,21)] and (1,40): ");
     testPtr1 = constructRange(1,40);
+    newSet2 = SetFromIntList(intList,INTLISTLEN);
     newSet = addRangeSet(newSet2,testPtr1);
     printRangesSet(newSet);
 
@@ -104,6 +106,7 @@ int main(void) {
 
     printf("[(3,6),(7,8),(12,15),(18,21)] and Delete (7,19): ");
     testPtr1 = constructRange(7,19);
+    newSet2 = SetFromIntList(intList,INTLISTLEN);
     newSet = deleteRangeSet(newSet2,testPtr1);
     printRangesSet(newSet);
 
@@ -137,7 +140,8 @@ int main(void) {
     printRangesSet(newSet);
 
     printf("[(3,6),(7,8),(12,15),(18,21)] and Get (7,19): ");
-    testPtr1 = constructRange(14,19);
+    testPtr1 = constructRange(7,19);
+    newSet2 = SetFromIntList(intList,INTLISTLEN);
     newSet = getRangeSet(newSet2,testPtr1);
     printRangesSet(newSet);
 

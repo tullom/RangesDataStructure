@@ -13,7 +13,7 @@
 int main(void) {
     
     Range *testPtr1,*testPtr2,*testPtr3;
-    RangesSet *newSet, *newSet2, *newSet3;
+    RangesSet *newSet, *newSet2;
     int intList[INTLISTLEN] = {3,4,5,7,12,13,14,18,19,20};
     
     testPtr1 = constructRange(1,6);
