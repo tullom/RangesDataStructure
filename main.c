@@ -18,7 +18,7 @@ int main(void) {
     
     testPtr1 = constructRange(1,6);
     testPtr2 = constructRange(-3,-1);
-    testPtr3 = constructRange(4,13);
+    testPtr3 = constructRange(5,7);
     // printf("%d", isSame(testPtr1,testPtr2));
     Range *rngList[RANGELISTLEN] = {testPtr1};
     
@@ -41,7 +41,7 @@ int main(void) {
     // newSet = addRangeSet(newSet,testPtr2);
     printRangesSet(newSet);
     printf("hi");
-    newSet3 = deleteRangeSet(newSet2,testPtr3);
+    newSet3 = getRangeSet(newSet2,testPtr3);
     // printf("%d", newSet2->numOfDiscontin);
     printRangesSet(newSet3);
     destroyRange(testPtr1);

@@ -152,7 +152,7 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     //Checks to see if the inputted range covers the whole set
     if((r->min <= set->rangesList[0]->min) && (r->max >= set->rangesList[set->numOfDiscontin]->max)) {
         Range **arrOfRanges = malloc(sizeof(Range *));
-        printf("hi");
+        // printf("hi");
         arrOfRanges[0] = constructRange(r->min,r->max);
         tempSet = constructSet(arrOfRanges,1);
         return tempSet;
@@ -233,7 +233,7 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
     }
     counter--;
 
-    printf("%d",counter);
+    // printf("%d",counter);
 
 
     
@@ -290,7 +290,7 @@ RangesSet *addRangeSet(RangesSet *set, Range *r) {
             //r is in the left range
             //need to overwrite the left range
             // printf("%d",set->rangesList[counter]->min);
-            printf("hi");
+            // printf("hi");
             if(set->rangesList[counter]->min >= r->min){
                 set->rangesList[counter] = constructRange(set->rangesList[counter]->min,r->max);
             } else {
@@ -329,27 +329,39 @@ RangesSet *getRangeSet(RangesSet *set, Range *r) {
 
     int counter=0;
     int maxCounter=0;
+    //Need to get the size of the array
     for(int i=0;i<set->numOfDiscontin+1;i++) {
-        if(compareRanges(set->rangesList[i],r)==1) {
+        if(compareRanges(set->rangesList[i],r)==1) { //if the current range in the set contains r.
             counter++;
         }
     }
     
     Range **arrOfRanges = malloc(counter*sizeof(Range *));
     maxCounter=0;
+    //add the ranges that intersect with r
     for(int i=0;i<set->numOfDiscontin+1;i++) {
         if(compareRanges(set->rangesList[i],r)==1) {
             arrOfRanges[maxCounter] = set->rangesList[i];
             maxCounter++;
         }
     }
-    // printf("%d %d",counter,maxCounter);
+    //make a new set from the new range array
     RangesSet *tempSet = constructSet(arrOfRanges,counter);
     free(arrOfRanges);
     return tempSet;
 }
 
-
+/* Function: deleteRangeSet
+ * Arguments: RangesSet *set, Range *r
+ * Return: RangesSet *tempSet
+ * 
+ * This function returns a new set
+ * from the difference between the
+ * inputted set and the inputted range.
+ * It uses a linear search, therefore, 
+ * the average algorithmic complexity 
+ * is O(n).
+ */
 RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
     int counter = 0;
     RangesSet *tempSet;
@@ -365,26 +377,26 @@ RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
 
     //Checks to see if range is not in set.
     if((r->max <= set->rangesList[0]->min)||(r->min >= set->rangesList[set->numOfDiscontin]->max)) {
-        // printf("hi");
         return set;
     }
 
+    //convert to an array of ints 
     arr = toIntArr(set,&intArrSize);
-    // printf("hili");
+
     newArrSize = 0;
+    
+    //count the number of numbers I want to remove
     for(int i=0;i<intArrSize;i++) {
-        printf("%d\n",arr[i]);
         if(r->min <= arr[i] && r->max > arr[i]) {
             newArrSize++;
-            printf("ggh");
         }
     }
     
     newArrSize = (intArrSize)-newArrSize;
     arrFinal = malloc(newArrSize*sizeof(int));
     int offset=0;
+        //build the final int list
         for(int i=0;i<intArrSize;i++) {
-            printf("%d\n",arr[i]);
             if(r->min <= arr[i] && r->max > arr[i]) {
                 continue;
             }
@@ -392,15 +404,12 @@ RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
             offset++;
     }
 
-    for(int i=0;i<newArrSize;i++){
-        printf("%d ",arrFinal[i]);
-    }
+    // for(int i=0;i<newArrSize;i++){
+    //     printf("%d ",arrFinal[i]);
+    // }
 
     tempSet = SetFromIntList(arrFinal,newArrSize);
     return tempSet;
-
-
-    
 }
 
 // RangesSet *addRangeSet2(RangesSet *set, Range *r) {
