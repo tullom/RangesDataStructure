@@ -36,7 +36,7 @@ RangesSet *constructSet(Range **r, int size) {
  * list of integers.  List must be sorted.
  */
 RangesSet *SetFromIntList(int *list, int size) {
-    
+    // printf("hi");
     RangesSet *newSet = malloc(sizeof(RangesSet));
     int counter, counterLag, startOfRange=list[0],endOfRange=list[size-1];
     newSet->numOfDiscontin = 0;
@@ -99,24 +99,26 @@ void printRangesSet(RangesSet *set) {
  * size pointer accordingly.
  */
 int *toIntArr(RangesSet *set, int *size) {
-    
     int start,end,startCopy;
     int **tempIntArr,*finalIntArr;
-    *size = 0;
+    // printf("hipi");
+    (*size) = 0;
     tempIntArr = malloc((set->numOfDiscontin+1)*sizeof(int *));
-    for(int i=0;i<set->numOfDiscontin+1;i++) {
+    for(int i=0;i<(set->numOfDiscontin+1);i++) {
+        // printRangesSet(set);
         start = set->rangesList[i]->min;
-        // printf("fon%d",set->rangesList[i]->max);
+        // printf("fon%d",set->rangesList[i]->min);
         end = set->rangesList[i]->max;
         startCopy = start;
         tempIntArr[i] = malloc((end-start)*sizeof(int));
         for(int j=0;j<(end-startCopy);j++) {
             tempIntArr[i][j] = start;
+            // printf("%de",start);
             start++;
             (*size)++;
         }
     }
-    
+    // printf("%d",*size);
     finalIntArr = malloc((*size)*sizeof(int));
     int counter=0;
     for(int i=0;i<set->numOfDiscontin+1;i++) {
@@ -125,10 +127,11 @@ int *toIntArr(RangesSet *set, int *size) {
         startCopy = start;
         for(int j=0;j<(end-startCopy);j++) {
             finalIntArr[counter] = tempIntArr[i][j];
+            // printf("%d",finalIntArr[counter]);
             counter++;
         }
     }
-
+    // printf("hipi");
     return finalIntArr;
 }
 
@@ -350,6 +353,8 @@ RangesSet *getRangeSet(RangesSet *set, Range *r) {
 RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
     int counter = 0;
     RangesSet *tempSet;
+    int *arr, intArrSize=0;
+    int *arrFinal, newArrSize=0;
 
     //Checks to see if the inputted range covers the whole set
     if((r->min <= set->rangesList[0]->min) && (r->max >= set->rangesList[set->numOfDiscontin]->max)) {
@@ -360,9 +365,39 @@ RangesSet *deleteRangeSet(RangesSet *set, Range *r) {
 
     //Checks to see if range is not in set.
     if((r->max <= set->rangesList[0]->min)||(r->min >= set->rangesList[set->numOfDiscontin]->max)) {
-        printf("hi");
+        // printf("hi");
         return set;
     }
+
+    arr = toIntArr(set,&intArrSize);
+    // printf("hili");
+    newArrSize = 0;
+    for(int i=0;i<intArrSize;i++) {
+        printf("%d\n",arr[i]);
+        if(r->min <= arr[i] && r->max > arr[i]) {
+            newArrSize++;
+            printf("ggh");
+        }
+    }
+    
+    newArrSize = (intArrSize)-newArrSize;
+    arrFinal = malloc(newArrSize*sizeof(int));
+    int offset=0;
+        for(int i=0;i<intArrSize;i++) {
+            printf("%d\n",arr[i]);
+            if(r->min <= arr[i] && r->max > arr[i]) {
+                continue;
+            }
+            arrFinal[offset] = arr[i];
+            offset++;
+    }
+
+    for(int i=0;i<newArrSize;i++){
+        printf("%d ",arrFinal[i]);
+    }
+
+    tempSet = SetFromIntList(arrFinal,newArrSize);
+    return tempSet;
 
 
     

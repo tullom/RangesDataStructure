@@ -16,18 +16,18 @@ int main(void) {
     RangesSet *newSet, *newSet2, *newSet3;
     int intList[INTLISTLEN] = {3,4,5,7,12,13,14,18,19,20};
     
-    testPtr1 = constructRange(1,10);
-    testPtr2 = constructRange(3,5);
-    testPtr3 = constructRange(-3,3);
-    printf("%d", isSame(testPtr1,testPtr2));
+    testPtr1 = constructRange(1,6);
+    testPtr2 = constructRange(-3,-1);
+    testPtr3 = constructRange(4,13);
+    // printf("%d", isSame(testPtr1,testPtr2));
     Range *rngList[RANGELISTLEN] = {testPtr1};
     
     // printRange(testPtr1);
     // printRange(testPtr2);
     
     newSet = constructSet(rngList,RANGELISTLEN);
-    int siz;
-    int *hi = toIntArr(newSet,&siz);
+    // int siz;
+    // int *hi = toIntArr(newSet,&siz);
 
     // for(int i=0;i<siz;i++) {
     //     printf("hello %d",hi[i]);
@@ -39,6 +39,8 @@ int main(void) {
     // printRangesSet(newSet2);
 
     // newSet = addRangeSet(newSet,testPtr2);
+    printRangesSet(newSet);
+    printf("hi");
     newSet3 = deleteRangeSet(newSet2,testPtr3);
     // printf("%d", newSet2->numOfDiscontin);
     printRangesSet(newSet3);
