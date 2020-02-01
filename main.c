@@ -8,33 +8,40 @@
 #include "rangesSet.h"
 
 #define INTLISTLEN 10
-#define RANGELISTLEN 3
+#define RANGELISTLEN 1
 
 int main(void) {
     
     Range *testPtr1,*testPtr2,*testPtr3;
-    RangesSet *newSet, *newSet2;
+    RangesSet *newSet, *newSet2, *newSet3;
     int intList[INTLISTLEN] = {3,4,5,7,12,13,14,18,19,20};
     
-    testPtr1 = constructRange(12,17);
-    testPtr2 = constructRange(3,9);
-    testPtr3 = constructRange(3,8);
+    testPtr1 = constructRange(1,10);
+    testPtr2 = constructRange(3,5);
+    testPtr3 = constructRange(-3,3);
     printf("%d", isSame(testPtr1,testPtr2));
-    Range *rngList[RANGELISTLEN] = {testPtr1,testPtr2};
+    Range *rngList[RANGELISTLEN] = {testPtr1};
     
     // printRange(testPtr1);
     // printRange(testPtr2);
     
-    // newSet = constructSet(rngList,RANGELISTLEN);
+    newSet = constructSet(rngList,RANGELISTLEN);
+    int siz;
+    int *hi = toIntArr(newSet,&siz);
+
+    // for(int i=0;i<siz;i++) {
+    //     printf("hello %d",hi[i]);
+    // }
 
     newSet2 = SetFromIntList(intList,INTLISTLEN);
 
     // printRangesSet(newSet);
-    printRangesSet(newSet2);
+    // printRangesSet(newSet2);
 
-    newSet2 = addRangeSet(newSet2,testPtr1);
-    printf("%d", newSet2->numOfDiscontin);
-    printRangesSet(newSet2);
+    // newSet = addRangeSet(newSet,testPtr2);
+    newSet3 = deleteRangeSet(newSet2,testPtr3);
+    // printf("%d", newSet2->numOfDiscontin);
+    printRangesSet(newSet3);
     destroyRange(testPtr1);
     destroyRange(testPtr2);
     destroyRange(testPtr3);
