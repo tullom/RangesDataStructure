@@ -146,4 +146,5 @@ int main(void) {
     printRangesSet(newSet);
 
     printf("\n****End of testing file****");
+    return(0);
 }
